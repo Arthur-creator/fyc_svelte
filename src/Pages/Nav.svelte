@@ -33,12 +33,12 @@
 <Router>
     <nav class="bg-gray-900 text-white py-3">
         <div class="flex justify-between items-center max-w-4xl mx-auto">
-            <Link to="/" class="font-bold text-xl mx-5">Home</Link>
+            <Link to="/" class="font-bold text-xl mx-5">Accueil</Link>
             <div>
                 {#if userConnected}
-                    <button on:click={logout} class="font-bold text-xl mx-5">Logout</button>
+                    <button on:click={logout} class="font-bold text-xl mx-5">Déconnexion</button>
                 {:else}
-                    <Link to="/login" class="font-bold text-xl mx-5">Login</Link>
+                    <Link to="/login" class="font-bold text-xl mx-5">Connexion</Link>
                 {/if}
                 <Link to="/blogs" class="font-bold text-xl mx-5">Blogs</Link>
             </div>

@@ -4,9 +4,11 @@ import Dialog from "../lib/Dialog.svelte";
 import Blog from "./Blog.svelte";
 import {navigate} from "svelte-navigator";
 import FormAdd from "../lib/FormAdd.svelte";
+import RowItem from "../lib/RowItem.svelte";
 
 let blogs = '';
 let dialog;
+let dialog2;
 let name = '';
 
 fetch('http://localhost:3001/channels', {
@@ -37,16 +39,16 @@ function addBlog() {
             name: formFields.value,
         })
     })
-        .then(res => res.json())
-        .then(data => {
-            if (data.error) {
-                alert(data.error);
-                return;
-            }else {
-                blogs[blogs.length] = data;
-                dialog.close();
-            }
-        })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+            return;
+        }else {
+            blogs[blogs.length] = data;
+            dialog.close();
+        }
+    })
 }
 
 let formFields = [
@@ -60,6 +62,54 @@ let formFields = [
 
 const closeDialog = () => {
     dialog.close();
+}
+
+const closeDialog2 = () => {
+    dialog2.close();
+}
+
+const redirect = (id) => {
+    navigate('/blogs/' + id);
+}
+
+const deleteChannel = (id) => {
+    fetch('http://localhost:3001/channels/'+id, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+            return;
+        }else {
+            alert('Channel supprimé !');
+            blogs = blogs.filter(blog => blog.id !== id);
+        }
+    })
+}
+
+const editChannel = (id) => {
+    fetch('http://localhost:3001/channels/'+id, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+            return;
+        }else {
+            alert('Channel supprimé !');
+            blogs = blogs.filter(blog => blog.id !== id);
+        }
+    })
 }
 
 </script>
@@ -79,9 +129,10 @@ const closeDialog = () => {
 
 <div class="flex flex-col">
     {#each blogs as blog}
-        <div on:click={navigate('/blogs/' + blog.id)} class="bg-white p-4 mb-4 shadow-md pointer-cursor">
-            <h2 class="text-xl font-bold">{blog.name}</h2>
-        </div>
+        <Dialog bind:dialog2 on:close>
+            <FormAdd closeDialog={closeDialog2} fields={formFields} title={"Editer un blog"} handleSubmit={editChannel} />
+        </Dialog>
+        <RowItem dataShow={blog.name} handleClick={() => redirect(blog.id)} handleEdit={() => dialog2.showModal()} handleDelete={() => deleteChannel(blog.id)} />
     {/each}
 </div>
 
