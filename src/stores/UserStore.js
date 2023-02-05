@@ -28,6 +28,27 @@ export const login = async ({username, password}) => {
     }
 };
 
+export const register = async ({email, password, nickname}) => {
+    const res = await fetch("http://localhost:3001/users", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            email: email,
+            nickname: nickname,
+            password: password,
+            roles: ["user"],
+        }),
+    });
+    const data = await res.json();
+    if (data.error) {
+        return;
+    } else {
+        navigate("login");
+    }
+}
+
 export const logout = () => {
     localStorage.removeItem("token");
     isLogged.set(false);

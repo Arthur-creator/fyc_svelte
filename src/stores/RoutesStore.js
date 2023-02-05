@@ -6,6 +6,7 @@ import Login from "../Pages/Login.svelte";
 import Blog from "../Pages/Blog.svelte";
 import Profile from "../Pages/Profile.svelte";
 import EditBlog from "../Pages/EditBlog.svelte";
+import Register from "../Pages/Register.svelte";
 
 export const route = writable({
     name: "home",
@@ -21,6 +22,11 @@ export const routes = readable([{
 }, {
     name: "login",
     component: Login,
+    params: {},
+    needAuth: false,
+}, {
+    name: "register",
+    component: Register,
     params: {},
     needAuth: false,
 }, {

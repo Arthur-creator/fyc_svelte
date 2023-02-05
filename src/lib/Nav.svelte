@@ -20,6 +20,7 @@
                 >
             {:else}
                 <Navigate name="login">Connexion</Navigate>
+                <Navigate name="register">Inscription</Navigate>
             {/if}
             <Navigate name="blogs">Blogs</Navigate>
             <Navigate name="profile">Profil</Navigate>
