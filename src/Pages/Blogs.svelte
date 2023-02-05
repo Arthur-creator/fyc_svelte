@@ -46,7 +46,7 @@ function addBlog() {
             return;
         }else {
             blogs[blogs.length] = data;
-            dialog.close();
+            closeDialog();
         }
     })
 }
@@ -62,6 +62,7 @@ let formFields = [
 
 const closeDialog = () => {
     dialog.close();
+    formFields.value = "";
 }
 
 const closeDialog2 = () => {

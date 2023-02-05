@@ -2,6 +2,7 @@
     import Dialog from "../lib/Dialog.svelte";
     import FormAdd from "../lib/FormAdd.svelte";
     import RowItem from "../lib/RowItem.svelte";
+    import jwtDecode from "jwt-decode";
 
     let currentBlog = {};
     let messages = "";
@@ -37,6 +38,7 @@
                         }else {
                             messages = data;
                             console.log(messages)
+
                         }
                     })
             }
@@ -47,6 +49,7 @@
 
     const closeDialog = () => {
         dialog.close();
+        formFields.value = "";
     }
 
     const formFields = [
@@ -58,7 +61,9 @@
         }
     ]
 
-    const user = {};
+    // get user id from jwt, we need to decode jwt
+    const token = localStorage.getItem('token');
+    const userId = jwtDecode(token).sub;
 
     const addMessage = () => {
         fetch('http://localhost:3001/messages', {
@@ -68,9 +73,9 @@
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
             body: JSON.stringify({
-                name: formFields.value,
-                channel_id: currentBlog.id,
-                user_id: localStorage.getItem('id')
+                message: formFields.value,
+                channelId: currentBlog.id,
+                sendUserId: userId
             })
         })
             .then(res => res.json())
@@ -80,7 +85,7 @@
                     return;
                 }else {
                     messages[messages.length] = data;
-                    dialog.close();
+                    closeDialog();
                 }
             })
     }
@@ -108,6 +113,7 @@
     const editMessage = (id) => {
 
     }
+
 </script>
 
 <div class="message-list">
@@ -119,11 +125,11 @@
         Ajouter un message
         </button>
     </div>
-    <Dialog bind:dialog2 on:close>
+    <Dialog bind:dialog on:close>
         <FormAdd closeDialog={closeDialog} fields={formFields} title={"Ajouter un message"} handleSubmit={addMessage}/>
     </Dialog>
     {#each messages as message}
-        <RowItem dataShow={message.message} handleEdit={() => dialog2.showModal()} handleDelete={() => deleteMessage(message.id)} />
+        <RowItem dataShow={message.senderUser.nickname+ " : " +message.message} handleEdit={() => dialog2.showModal()} handleDelete={() => deleteMessage(message.id)} />
     {/each}
 </div>
 

@@ -16,6 +16,9 @@
 
 <main>
     <Nav/>
+    <div class="cursor-pointer" on:click={() => window.history.back()}>
+        <button class="text-white hover:bg-slate-600 text-white font-bold py-2 px-4 rounded mb-5 border border-gray-400">Retour</button>
+    </div>
     <Router url="{url}">
         <Route path="/" component={Home}/>
         <Route path="/login" component={Login}/>
