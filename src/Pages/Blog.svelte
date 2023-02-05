@@ -5,7 +5,7 @@
     import jwtDecode from "jwt-decode";
 
     let currentBlog = {};
-    let messages = "";
+    let messages = [];
 
     let id = window.location.pathname.split('/')[2];
 
