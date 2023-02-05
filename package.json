@@ -22,7 +22,6 @@
     "@tailwindcss/typography": "^0.5.9",
     "electron": "^22.2.0",
     "jwt-decode": "^3.1.2",
-    "svelte-navigator": "^3.2.2",
     "vite-tsconfig-paths": "^4.0.5"
   }
 }

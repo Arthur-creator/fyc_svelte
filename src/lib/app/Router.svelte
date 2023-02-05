@@ -18,4 +18,5 @@
     }
 </script>
 
-<svelte:component this={currentRoute?.component} />
+{JSON.stringify(currentRoute)}
+<svelte:component this={currentRoute?.component} params={currentRoute?.params} />

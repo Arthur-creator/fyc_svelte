@@ -7,7 +7,8 @@
     let currentBlog = {};
     let messages = [];
 
-    let id = window.location.pathname.split('/')[2];
+    export let params;
+    const id = params.id;
 
     fetch('http://localhost:3001/channels/'+id, {
         method: 'GET',
