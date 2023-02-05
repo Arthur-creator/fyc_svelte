@@ -41,6 +41,7 @@
                     <Link to="/login" class="font-bold text-xl mx-5">Connexion</Link>
                 {/if}
                 <Link to="/blogs" class="font-bold text-xl mx-5">Blogs</Link>
+                <Link to="/profile" class="font-bold text-xl mx-5">Profil</Link>
             </div>
         </div>
     </nav>

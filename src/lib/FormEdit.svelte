@@ -3,6 +3,28 @@
     export let handleSubmit;
     export let closeDialog;
     export let fields;
+    export let id;
+    export let table;
+
+    let currentBlog = {};
+    console.log(id)
+    console.log(table)
+        fetch('http://localhost:3001/'+ table +'/' + id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then(res => res.json())
+            .then(channel => {
+                if (channel.statusCode) {
+                    return;
+                } else {
+                    currentBlog = channel;
+                }
+            })
+
 </script>
 
 <div class="bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full taille_min">
@@ -20,7 +42,7 @@
                         {field.label}
                     </label>
                     <div class="mt-1 rounded-md shadow-sm">
-                        <input bind:value={fields.value} name={fields.name} id={fields.name} type="text" required
+                        <input bind:value={currentBlog.name} name={fields.name} id={fields.name} type="text" required
                                class="block w-full px-3 py-2 rounded-md placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"/>
                     </div>
                 </div>

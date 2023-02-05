@@ -26,7 +26,6 @@
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                alert(data.error);
                 return;
             }else {
                 if (data.access_token){

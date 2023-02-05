@@ -19,7 +19,6 @@
         .then(res => res.json())
         .then(channel => {
             if (channel.statusCode) {
-                alert(channel.message);
                 return;
             }else {
                 currentBlog = channel;
@@ -33,7 +32,6 @@
                     .then(res => res.json())
                     .then(data => {
                         if (data.statusCode) {
-                            alert(data.message);
                             return;
                         }else {
                             messages = data;
@@ -81,7 +79,6 @@
             .then(res => res.json())
             .then(data => {
                 if (data.error) {
-                    alert(data.error);
                     return;
                 }else {
                     messages[messages.length] = data;
@@ -101,7 +98,6 @@
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                alert(data.error);
                 return;
             }else {
                 alert('Message supprimé !');
@@ -120,8 +116,8 @@
     <h1 class="text-4xl mb-5">Liste des messages du blog
         <span class="font-bold">{currentBlog.name}</span>
     </h1>
-    <div on:click={() => dialog.showModal()} class="pointer-cursor">
-        <button class="bg-black hover:bg-slate-600 text-white font-bold py-2 px-4 rounded mb-5">
+    <div>
+        <button on:click={() => dialog.showModal()} class="pointer-cursor bg-black hover:bg-slate-600 text-white font-bold py-2 px-4 rounded mb-5">
         Ajouter un message
         </button>
     </div>

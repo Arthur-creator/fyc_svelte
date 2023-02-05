@@ -1,14 +1,12 @@
 <script>
 
 import Dialog from "../lib/Dialog.svelte";
-import Blog from "./Blog.svelte";
 import {navigate} from "svelte-navigator";
 import FormAdd from "../lib/FormAdd.svelte";
 import RowItem from "../lib/RowItem.svelte";
 
 let blogs = '';
 let dialog;
-let dialog2;
 let name = '';
 
 fetch('http://localhost:3001/channels', {
@@ -21,7 +19,6 @@ fetch('http://localhost:3001/channels', {
 .then(res => res.json())
 .then(data => {
     if (data.statusCode) {
-        alert(data.message);
         return;
     }else {
         blogs=data;
@@ -42,7 +39,6 @@ function addBlog() {
     .then(res => res.json())
     .then(data => {
         if (data.error) {
-            alert(data.error);
             return;
         }else {
             blogs[blogs.length] = data;
@@ -65,10 +61,6 @@ const closeDialog = () => {
     formFields.value = "";
 }
 
-const closeDialog2 = () => {
-    dialog2.close();
-}
-
 const redirect = (id) => {
     navigate('/blogs/' + id);
 }
@@ -84,7 +76,6 @@ const deleteChannel = (id) => {
     .then(res => res.json())
     .then(data => {
         if (data.error) {
-            alert(data.error);
             return;
         }else {
             alert('Channel supprimé !');
@@ -93,24 +84,8 @@ const deleteChannel = (id) => {
     })
 }
 
-const editChannel = (id) => {
-    fetch('http://localhost:3001/channels/'+id, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-        }
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.error) {
-            alert(data.error);
-            return;
-        }else {
-            alert('Channel supprimé !');
-            blogs = blogs.filter(blog => blog.id !== id);
-        }
-    })
+const editChannel = (blog) => {
+    navigate('/blogs/edit/'+ blog.id)
 }
 
 </script>
@@ -130,10 +105,7 @@ const editChannel = (id) => {
 
 <div class="flex flex-col">
     {#each blogs as blog}
-        <Dialog bind:dialog2 on:close>
-            <FormAdd closeDialog={closeDialog2} fields={formFields} title={"Editer un blog"} handleSubmit={editChannel} />
-        </Dialog>
-        <RowItem dataShow={blog.name} handleClick={() => redirect(blog.id)} handleEdit={() => dialog2.showModal()} handleDelete={() => deleteChannel(blog.id)} />
+        <RowItem dataShow={blog.name} handleClick={() => redirect(blog.id)} handleEdit={() => editChannel(blog)} handleDelete={() => deleteChannel(blog.id)} />
     {/each}
 </div>
 
